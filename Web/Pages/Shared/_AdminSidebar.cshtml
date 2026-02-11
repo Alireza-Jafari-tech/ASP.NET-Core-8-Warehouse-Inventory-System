@@ -1,0 +1,37 @@
+<div class="sidebar">
+    <div class="logo">
+        <div class="logo-icon">W</div>
+        <div class="logo-text">WarehousePro</div>
+    </div>
+    <ul class="nav-links">
+    <li>
+        <a asp-page="/Admin/Index"
+        class="nav-link @(Context.Request.Path.Value == "/Admin" || Context.Request.Path.Value == "/Admin/Index" ? "active" : "")">
+            <i class="fas fa-chart-pie"></i> <span>Dashboard</span>
+        </a>
+    </li>
+
+
+    <li>
+        <a asp-page="/Admin/Items/Index"
+            class="nav-link @(Context.Request.Path.Value.StartsWith("/Admin/Items") ? "active" : "")">
+            <i class="fas fa-boxes"></i> <span>Items</span>
+        </a>
+    </li>
+
+    <li>
+        <a asp-page="/Admin/Suppliers/Index"
+        class="nav-link @(Context.Request.Path.Value.StartsWith("/Admin/Suppliers") ? "active" : "")">
+            <i class="fas fa-truck"></i> <span>Suppliers</span>
+        </a>
+    </li>
+
+    <li>
+        <a asp-page="/Admin/Orders/Index"
+           class="nav-link @(Context.Request.Path.Value.StartsWith("/Admin/Orders") ? "active" : "")">
+            <i class="fas fa-clipboard-list"></i> <span>Orders</span>
+        </a>
+    </li>
+</ul>
+
+</div>

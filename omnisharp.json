@@ -1,0 +1,19 @@
+{
+  "msBuild": {
+    "enabled": true,
+    "loadProjectsOnDemand": false
+  },
+  "roslyn": {
+    "enabled": true,
+    "analyzeOpenDocumentsOnly": false
+  },
+  "sdk": {
+    "includePrerelease": false
+  },
+  "script": {
+    "enabled": true
+  },
+  "plugins": {
+    "locations": []
+  }
+}

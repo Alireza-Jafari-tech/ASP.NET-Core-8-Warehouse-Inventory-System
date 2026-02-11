@@ -1,0 +1,318 @@
+@page
+@model Web.Pages.Customer.Auth.CustomerRegisterModel
+
+@{
+    Layout = null;
+}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+    :root {
+        --primary: #2563eb;
+        --primary-dark: #1d4ed8;
+        --secondary: #64748b;
+        --light: #f8fafc;
+        --dark: #1e293b;
+        --success: #10b981;
+        --warning: #f59e0b;
+        --danger: #ef4444;
+        --gray-100: #f1f5f9;
+        --gray-200: #e2e8f0;
+        --gray-300: #cbd5e1;
+        --gray-500: #64748b;
+        --gray-700: #334155;
+        --border-radius: 8px;
+        --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        --transition: all 0.3s ease;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Inter', sans-serif;
+    }
+
+    body {
+        background-color: var(--gray-100);
+        color: var(--dark);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem;
+    }
+
+    .auth-container {
+        width: 100%;
+        max-width: 420px;
+    }
+
+    .auth-card {
+        background-color: white;
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow);
+        padding: 2.5rem;
+    }
+
+    .logo {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.75rem;
+        margin-bottom: 2rem;
+    }
+
+    .logo-icon {
+        background-color: var(--primary);
+        color: white;
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 1.25rem;
+    }
+
+    .logo-text {
+        font-weight: 700;
+        font-size: 1.5rem;
+        color: var(--dark);
+    }
+
+    .auth-header {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .auth-title {
+        font-size: 1.75rem;
+        font-weight: 700;
+        color: var(--dark);
+        margin-bottom: 0.5rem;
+    }
+
+    .auth-subtitle {
+        color: var(--gray-500);
+        font-size: 0.95rem;
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .form-label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+        color: var(--gray-700);
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 0.875rem 1rem;
+        border: 1px solid var(--gray-300);
+        border-radius: var(--border-radius);
+        font-size: 1rem;
+        transition: var(--transition);
+        background-color: white;
+    }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+    .input-with-icon {
+        position: relative;
+    }
+
+    .input-icon {
+        position: absolute;
+        left: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--gray-500);
+    }
+
+    .input-with-icon .form-control {
+        padding-left: 3rem;
+    }
+
+    .btn {
+        width: 100%;
+        padding: 0.875rem 1.5rem;
+        border-radius: var(--border-radius);
+        border: none;
+        font-weight: 600;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        transition: var(--transition);
+        font-size: 1rem;
+    }
+
+    .btn-primary {
+        background-color: var(--primary);
+        color: white;
+    }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+        }
+
+    .btn-outline {
+        background-color: transparent;
+        border: 1px solid var(--gray-300);
+        color: var(--gray-700);
+    }
+
+        .btn-outline:hover {
+            background-color: var(--gray-100);
+        }
+
+    .auth-footer {
+        text-align: center;
+        margin-top: 2rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid var(--gray-200);
+        color: var(--gray-500);
+        font-size: 0.95rem;
+    }
+
+    .auth-link {
+        color: var(--primary);
+        text-decoration: none;
+        font-weight: 500;
+    }
+
+        .auth-link:hover {
+            text-decoration: underline;
+        }
+
+    .error-message {
+        color: var(--danger);
+        font-size: 0.875rem;
+        margin-top: 0.5rem;
+        display: none;
+    }
+
+    .success-message {
+        color: var(--success);
+        font-size: 0.875rem;
+        margin-top: 0.5rem;
+        display: none;
+    }
+
+    .alert {
+        padding: 1rem;
+        border-radius: var(--border-radius);
+        margin-bottom: 1.5rem;
+        display: none;
+    }
+
+    .alert-success {
+        background-color: #d1fae5;
+        color: #065f46;
+        border: 1px solid #a7f3d0;
+    }
+
+    .alert-error {
+        background-color: #fee2e2;
+        color: #991b1b;
+        border: 1px solid #fecaca;
+    }
+
+    @@media (max-width: 480px) {
+        .auth-card {
+            padding: 2rem 1.5rem;
+        }
+
+        body {
+            padding: 1rem;
+        }
+    }
+</style>
+<div class="auth-container">
+    <div class="auth-card">
+        <div class="logo">
+            <div class="logo-icon">W</div>
+            <div class="logo-text">WarehousePro</div>
+        </div>
+
+        <div class="auth-header">
+            <h1 class="auth-title">Customer Registration</h1>
+            <p class="auth-subtitle">Create your Customer account to access the warehouse management system</p>
+        </div>
+
+        @* <div class="alert alert-success" id="successAlert">
+                <i class="fas fa-check-circle"></i> Registration successful! Redirecting to login...
+            </div> *@
+
+        <div class="alert alert-error" id="errorAlert">
+            <div asp-validation-summary="All"></div>
+        </div>
+
+        <form method="post" id="registrationForm">
+            <div class="form-group">
+                <label asp-for="Customer.Email" class="form-label"></label>
+                <div class="input-with-icon">
+                    <i class="fas fa-envelope input-icon"></i>
+                    <input asp-for="Customer.Email" type="email" class="form-control" id="email" placeholder="Enter your email address">
+                </div>
+                <span asp-validation-for="Customer.Email" class="error-message" id="emailError"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Customer.PhoneNumber" class="form-label"></label>
+                <div class="input-with-icon">
+                    <i class="fas fa-phone input-icon"></i>
+                    <input asp-for="Customer.PhoneNumber" type="tel" class="form-control" id="phone" placeholder="Enter your phone number">
+                </div>
+                <span asp-validation-for="Customer.PhoneNumber" class="error-message" id="phoneError"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Customer.CompanyName" class="form-label"></label>
+                <div class="input-with-icon">
+                    <i class="fas fa-user input-icon"></i>
+                    <input asp-for="Customer.CompanyName" type="text" class="form-control" id="name" placeholder="Enter your company name">
+                </div>
+                <span asp-validation-for="Customer.CompanyName" class="error-message" id="nameError"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Customer.Password" class="form-label"></label>
+                <div class="input-with-icon">
+                    <i class="fas fa-lock input-icon"></i>
+                    <input asp-for="Customer.Password" type="password" class="form-control" id="password" placeholder="Create a password">
+                </div>
+                <span asp-validation-for="Customer.Password" class="error-message" id="passwordError"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Customer.RepeatPassword" class="form-label"></label>
+                <div class="input-with-icon">
+                    <i class="fas fa-lock input-icon"></i>
+                    <input asp-for="Customer.RepeatPassword" type="password" class="form-control" id="confirmPassword" placeholder="Confirm your password">
+                </div>
+                <span asp-validation-for="Customer.RepeatPassword" class="error-message" id="confirmPasswordError"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary" id="registerBtn">
+                <i class="fas fa-user-plus"></i> Create Account
+            </button>
+        </form>
+
+        <div class="auth-footer">
+            Already have an account? <a asp-page="/Cusomer/Auth/CusomerLogin" class="auth-link">Sign in here</a>
+            <br />
+            You are an admin? <a asp-page="/Admin/Auth/AdminLogin" class="auth-link">Sign in here</a>
+        </div>
+    </div>
+</div>

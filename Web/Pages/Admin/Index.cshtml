@@ -1,0 +1,356 @@
+﻿@page
+@model Web.Pages.Admin.IndexModel
+
+<div class="content">
+    <!-- Dashboard Page -->
+    <div class="page-header">
+        <h1 class="page-title">Dashboard</h1>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="quick-actions">
+        <div class="quick-action-btn" id="receiveShipmentBtn">
+                <div class="quick-action-icon">
+                    <i class="fas fa-shipping-fast"></i>
+                </div>
+                <div class="quick-action-text">Receive Shipment</div>
+        </div>
+        <div class="quick-action-btn" id="adjustStockBtn">
+            <div class="quick-action-icon">
+                <i class="fas fa-sliders-h"></i>
+            </div>
+            <div class="quick-action-text">Adjust Stock</div>
+        </div>
+    </div>
+
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-value">@Model.TotalItems</div>
+            <div class="stat-label">Total Items</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">@(Model.TotalValue.ToString("$0.00"))</div>
+            <div class="stat-label">Total Value</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">@Model.LowStockAlerts</div>
+            <div class="stat-label">Low Stock Alerts</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">@Model.ActiveSuppliers</div>
+            <div class="stat-label">Active Suppliers</div>
+            <div class="stat-trend trend-up"><i class="fas fa-arrow-up"></i> 2 new this month</div>
+        </div>
+    </div>
+
+    <div class="dashboard-grid">
+        <div class="activity-card">
+            <div class="card-header">
+                <h2 class="card-title">Recent Activity</h2>
+                <button class="btn btn-outline" id="viewAllActivitiesBtn">View All</button>
+            </div>
+            <ul class="activity-list">
+                @if (Model.Activities != null)
+                {
+                    var i = 1;
+
+                    foreach (var activity in Model.Activities)
+                    {
+                        if (i > 3)
+                            continue;
+
+                        <li class="activity-item">
+                            <div class="activity-icon">
+                                <i class="@activity.IconClass"></i>
+                            </div>
+                            <div class="activity-details">
+                                <div class="activity-title">@activity.Title</div>
+                                <div class="activity-time">@activity.Date</div>
+                            </div>
+                        </li>
+                        i++;
+                    }
+                }
+            </ul>
+        </div>
+        
+        <div class="alerts-card">
+            <div class="card-header">
+                <h2 class="card-title">Low Stock Alerts</h2>
+                <button class="btn btn-outline" id="viewAllAlertsBtn">View All</button>
+            </div>
+            <div class="alerts-list">
+                @if (Model.StockAlerts != null)
+                {
+                    <!-- low stock items counter -->
+                    var i = 1;
+
+                    foreach (var alertedItem in Model.StockAlerts)
+                    {
+                        if (i > 4)
+                            continue;
+
+                        <div class="alert-item">
+                            <div class="alert-icon">
+                                <i class="fas fa-exclamation-triangle"></i>
+                            </div>
+                            <div class="alert-details">
+                                <div class="alert-title">@alertedItem.Name</div>
+                                <div class="alert-desc">
+                                Only @alertedItem.QuantityAvailabe units remaining
+                                </div>
+                            </div>
+                        </div>
+                        i++;
+                    }
+                }
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Modals -->
+<!-- View All Activities Modal -->
+<div class="modal" id="allActivitiesModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 class="modal-title">All Recent Activities</h2>
+            <button class="modal-close">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Activity</th>
+                            <th>Time</th>
+                            <th>Details</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.Activities != null)
+                        {
+                            foreach (var activity in Model.Activities)
+                            {
+                                <tr>
+                                    <td>
+                                        <i class="@activity.IconClass"></i>
+                                    </td>
+                                    <td>@activity.Title</td>
+                                    <td>@activity.Date</td>
+                                    <td>@activity.Details</td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-outline close-modal">Close</button>
+        </div>
+    </div>
+</div>
+
+<!-- View All Alerts Modal -->
+<div class="modal" id="allAlertsModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 class="modal-title">All Low Stock Alerts</h2>
+            <button class="modal-close">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th>Current Stock</th>
+                            <th>Reorder Level</th>
+                            <th>Status</th>
+                            <th>Last Updated</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.StockAlerts != null)
+                        {
+                            foreach(var alertedItem in Model.StockAlerts)
+                            {
+                                <tr>
+                                    <td>@alertedItem.Name</td>
+                                    <td>@alertedItem.QuantityAvailabe</td>
+                                    <td>@alertedItem?.ReorderLevel</td>
+                                    <td>
+                                        <span style="color: var(--danger); font-weight: 600;">
+                                            @alertedItem.Status.Name
+                                        </span>
+                                    </td>
+                                    <td>@(alertedItem?.CreateDate)</td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-outline close-modal">Close</button>
+        </div>
+    </div>
+</div>
+
+<!-- Receive Shipment Modal -->
+<div class="modal" id="receiveShipmentModal">
+    <form method="post" asp-page-handler="ReceiveShipment">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Receive New Shipment</h2>
+                <button type="button" class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Select Item</label>
+                    <select asp-for="NewShipmentDto.ItemId" asp-items="Model.ItemsDropdown" class="form-control" id="shipmentItem">
+                        <option value="0">Choose item</option>
+                    </select>
+                    <span asp-validation-for="NewShipmentDto.ItemId"></span>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Quantity Received</label>
+                    <input asp-for="NewShipmentDto.ReceivedQuantity" type="number" class="form-control" id="shipmentQuantity" min="5">
+                    <span asp-validation-for="NewShipmentDto.ReceivedQuantity"></span>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Supplier</label>
+                    <select asp-for="NewShipmentDto.SupplierId" asp-items="Model.SuppliersDropdown" class="form-control" id="shipmentSupplier">
+                        <option value="0">Choose Supplier</option>
+                    </select>
+                    <span asp-validation-for="NewShipmentDto.SupplierId"></span>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Notes</label>
+                    <textarea asp-for="NewShipmentDto.Notes" class="form-control" id="shipmentNotes" rows="3" placeholder="Any additional notes about this shipment"></textarea>
+                    <span asp-validation-for="NewShipmentDto.Notes"></span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline close-modal">Cancel</button>
+                <button type="submit" class="btn btn-primary">Receive Shipment</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!-- Adjust Stock Modal -->
+<div class="modal" id="adjustStockModal">
+    <form method="post"ReceiveShipment asp-page-handler="AdjustItem">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h2 class="modal-title">Adjust Stock Level</h2>
+            <button type="button" class="modal-close">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+                <label class="form-label">Select Item</label>
+                <select asp-for="AdjustItemDto.ItemId" asp-items="Model.ItemsDropdown" class="form-control" id="adjustItem">
+                    <option value="0">Select item</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Adjustment Type</label>
+                <select asp-for="AdjustItemDto.AdjustmentType" class="form-control" id="adjustType">
+                    <option value="increase">Increase Stock</option>
+                    <option value="decrease">Decrease Stock</option>
+                    <option value="Set Exact Quantity">Set Exact Quantity</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Quantity</label>
+                <input asp-for="AdjustItemDto.Quantity" type="number" class="form-control" id="adjustQuantity" min="1">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Reason for Adjustment</label>
+                <select asp-for="AdjustItemDto.ReasonForAdjustment" class="form-control" id="adjustReason">
+                    <option value="Damaged Goods">Damaged Goods</option>
+                    <option value="Inventory Count Discrepancy">
+                        Inventory Count Discrepancy
+                    </option>
+                    <option value="Return to Supplier">Return to Supplier</option>
+                    <option value="Theft/Loss">Theft/Loss</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Notes</label>
+                <textarea asp-for="AdjustItemDto.Notes" class="form-control" id="adjustNotes" rows="3" placeholder="Explain the reason for this adjustment"></textarea>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-outline close-modal">Cancel</button>
+            <button type="submit" class="btn btn-primary">Adjust Stock</button>
+        </div>
+    </div>
+    </form>
+</div>
+
+<script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Modal elements
+            const allActivitiesModal = document.getElementById('allActivitiesModal');
+            const allAlertsModal = document.getElementById('allAlertsModal');
+            const receiveShipmentModal = document.getElementById('receiveShipmentModal');
+            const adjustStockModal = document.getElementById('adjustStockModal');
+            const transactionHistoryModal = document.getElementById('transactionHistoryModal');
+
+            // Quick action buttons
+            document.getElementById('receiveShipmentBtn').addEventListener('click', () => {
+                receiveShipmentModal.classList.add('active');
+            });
+
+            document.getElementById('adjustStockBtn').addEventListener('click', () => {
+                adjustStockModal.classList.add('active');
+            });
+
+            // View buttons
+            document.getElementById('viewAllActivitiesBtn').addEventListener('click', () => {
+                allActivitiesModal.classList.add('active');
+            });
+
+            document.getElementById('viewAllAlertsBtn').addEventListener('click', () => {
+                allAlertsModal.classList.add('active');
+            });
+
+            // Close modals
+            document.querySelectorAll('.modal-close, .close-modal').forEach(button => {
+                button.addEventListener('click', function() {
+                    allActivitiesModal.classList.remove('active');
+                    allAlertsModal.classList.remove('active');
+                    receiveShipmentModal.classList.remove('active');
+                    recordSaleModal.classList.remove('active');
+                    adjustStockModal.classList.remove('active');
+                    transactionHistoryModal.classList.remove('active');
+                });
+            });
+
+            // Close modal when clicking outside
+            document.querySelectorAll('.modal').forEach(modal => {
+                modal.addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        this.classList.remove('active');
+                    }
+                });
+            });
+
+            // Set active navigation link
+            @* const currentPage = window.location.pathname.split('/').pop();
+            document.querySelectorAll('.nav-link').forEach(link => {
+                if (link.getAttribute('href') === currentPage) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            }); *@
+        });
+</script>

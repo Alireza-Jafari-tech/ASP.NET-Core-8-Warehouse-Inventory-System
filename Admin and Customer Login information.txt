@@ -1,0 +1,13 @@
+Admin User:
+
+Email: michael.anderson@warehouse.com
+
+Password: Admin123!
+
+---
+
+Customer Account:
+
+Email: john.smith@amazon.com
+
+Password: Amazon12!

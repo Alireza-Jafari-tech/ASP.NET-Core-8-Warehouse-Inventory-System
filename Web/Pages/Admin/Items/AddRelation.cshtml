@@ -1,0 +1,362 @@
+@page "/Admin/Items/AddRelation/{id:int}"
+@model Web.Pages.Admin.Items.AddRelationModel
+
+@{
+
+}
+
+<style>
+        body { background: #f8f9fa; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; }
+        h1 { color: #333; margin-bottom: 30px; border-bottom: 2px solid #007bff; padding-bottom: 10px; }
+        .section { margin-bottom: 25px; padding: 20px; border: 1px solid #dee2e6; border-radius: 8px; }
+        .section-title { font-weight: 600; color: #495057; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
+        .items-list { max-height: 250px; overflow-y: auto; border: 1px solid #ced4da; border-radius: 5px; padding: 10px; }
+        .item-option { padding: 8px 12px; border-bottom: 1px solid #eee; display: flex; align-items: center; gap: 10px; }
+        .item-option:last-child { border-bottom: none; }
+        .selected-item { margin-bottom: 10px; padding: 10px; border: 1px solid #eee; border-radius: 4px; display: flex; justify-content: space-between; align-items: center; }
+        .relation-info { flex: 1; }
+        .footer-buttons { display: flex; justify-content: space-between; margin-top: 30px; padding-top: 20px; border-top: 1px solid #dee2e6; }
+        .current-item-info { background: #e7f3ff; padding: 15px; border-radius: 8px; margin-bottom: 20px; }
+        .control-row { display: flex; gap: 15px; margin-top: 15px; }
+        .control-row select { flex: 1; }
+        .control-row button { white-space: nowrap; }
+    </style>
+
+    <div class="container">
+        <h1>Manage Relations for: <span class="text-primary">@Model.EditingItem.Name</span></h1>
+        
+        <div class="current-item-info">
+            <h5><i class="fas fa-box"></i> Editing Relations For:</h5>
+            <p class="mb-0"><strong>@Model.EditingItem.Name</strong></p>
+        </div>
+        
+        <form method="post">
+            <!-- Hidden field for the main item ID -->
+            <input type="hidden" name="MainItemId" value="@Model.EditingItem.Id" />
+            
+            <!-- All existing relations will be here -->
+            <div id="allRelationsContainer" style="display:none;">
+                <!-- Existing relations loaded from database -->
+                @for (int i = 0; i < Model.ItemRelations.Count; i++)
+                {
+                    var relation = Model.ItemRelations[i];
+                    var relatedItem = await Model.GetItemById(relation.RelatedItemId);
+                    
+                    <div class="selected-item existing-relation" data-index="@i">
+                        <input type="hidden" name="ItemRelationDtoList[@i].ItemId" value="@relation.ItemId">
+                        <input type="hidden" name="ItemRelationDtoList[@i].RelatedItemId" value="@relation.RelatedItemId">
+                        <input type="hidden" name="ItemRelationDtoList[@i].RelationTypeId" value="@relation.RelationTypeId">
+                        
+                        <div class="relation-info">
+                            <span style="font-weight:bold;margin-right:10px">
+                                @(relatedItem?.Name ?? "Unknown Item")
+                            </span>
+                            <span style="color:#666;font-size:.9em">
+                                (@Model.GetRelationTypeName(relation.RelationTypeId))
+                            </span>
+                        </div>
+                        
+                        <button type="button" class="btn btn-sm btn-outline-danger remove-btn" 
+                                data-relation-index="@i">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                }
+            </div>
+            
+            <!-- Section 1: All Available Items to Relate To -->
+            <div class="section">
+                <div class="section-title">
+                    <i class="fas fa-boxes"></i> Available Items to Relate To
+                </div>
+                <p class="text-muted mb-3">Select items to create relations with <strong>@Model.EditingItem.Name</strong></p>
+                
+                <div class="items-list">
+                    @foreach (var item in Model.AllItems)
+                    {
+                        <div class="item-option">
+                            <input type="checkbox" 
+                                    class="related-item-checkbox"
+                                    data-item-id="@item.Id" 
+                                    data-item-name="@item.Name"
+                                    id="item-@item.Id">
+                            <label for="item-@item.Id">
+                                @item.Name
+                            </label>
+                        </div>
+                    }
+                </div>
+                
+                <!-- Relation Type and Add Button -->
+                <div class="control-row">
+                    <select id="relationType" class="form-select">
+                    @foreach (var rt in Model.RelationTypes)
+                    {
+                        <option value="@rt.Id" data-name="@rt.Name">
+                            @rt.Name
+                        </option>
+                    }
+                    </select>
+                    
+                    <button type="button" id="addRelationBtn" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Add Relation
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Section 2: Existing Relations -->
+            <div class="section">
+                <div class="section-title">
+                    <i class="fas fa-database"></i> Existing Relations (@Model.ItemRelations.Count)
+                </div>
+                <div id="existingRelations">
+                    @if (Model.ItemRelations.Any())
+                    {
+                        @foreach (var relation in Model.ItemRelations)
+                        {
+                            var relatedItem = Model.AllItems.FirstOrDefault(x => x.Id == relation.RelatedItemId);
+                            <div class="selected-item">
+                                <div class="relation-info">
+                                    <span style="font-weight:bold;margin-right:10px">
+                                        @(relatedItem?.Name ?? "Unknown Item")
+                                    </span>
+                                    <span style="color:#666;font-size:.9em">
+                                        (@Model.GetRelationTypeName(relation.RelationTypeId))
+                                    </span>
+                                </div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="text-center text-muted p-4">
+                            <i class="fas fa-link fa-2x mb-3"></i>
+                            <p>No existing relations found.</p>
+                        </div>
+                    }
+                </div>
+            </div>
+            
+            <!-- Section 3: New Relations (Added via JavaScript) -->
+            <div class="section">
+                <div class="section-title">
+                    <i class="fas fa-plus-circle"></i> New Relations to Add (<span id="newRelationsCount">0</span>)
+                </div>
+                <div id="newRelations">
+                    <!-- New relations will be added here by JavaScript -->
+                    <div class="text-center text-muted p-4" id="newRelationsEmpty">
+                        <i class="fas fa-plus fa-2x mb-3"></i>
+                        <p>No new relations yet. Add some using the form above.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Footer Buttons -->
+            <div class="footer-buttons">
+                <a asp-page="/Admin/Items/Index" class="btn btn-outline-secondary">
+                    <i class="fas fa-arrow-left"></i> Back to Items
+                </a>
+                <button type="submit" class="btn btn-success" id="saveBtn">
+                    <i class="fas fa-save"></i> Save All Relations
+                </button>
+            </div>
+        </form>
+    </div>
+
+<script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const mainItemId = @Model.EditingItem.Id;
+            let nextIndex = @Model.ItemRelations.Count; // Start indexing from existing count
+            const addBtn = document.getElementById('addRelationBtn');
+            const checkboxes = document.querySelectorAll('.related-item-checkbox');
+            const allRelationsContainer = document.getElementById('allRelationsContainer');
+            const newRelationsContainer = document.getElementById('newRelations');
+            const newRelationsEmpty = document.getElementById('newRelationsEmpty');
+            const newRelationsCount = document.getElementById('newRelationsCount');
+            const existingRelationsContainer = document.getElementById('existingRelations');
+
+            // Update new relations count
+            function updateNewRelationsCount() {
+                const newItems = newRelationsContainer.querySelectorAll('.selected-item.new-relation');
+                const count = newItems.length;
+                newRelationsCount.textContent = count;
+                
+                if (count > 0) {
+                    newRelationsEmpty.style.display = 'none';
+                } else {
+                    newRelationsEmpty.style.display = 'block';
+                }
+            }
+            
+            // Add new relation
+            addBtn.addEventListener('click', function() {
+                // Get selected checkbox
+                const selectedCheckboxes = Array.from(checkboxes).filter(cb => cb.checked);
+                
+                if (selectedCheckboxes.length === 0) {
+                    alert('Please select at least one item to relate to');
+                    return;
+                }
+                // good
+                
+                const relationTypeSelect = document.getElementById('relationType');
+                const relationTypeId = relationTypeSelect.value;
+                const relationTypeName =
+                    relationTypeSelect.options[relationTypeSelect.selectedIndex].dataset.name;
+                
+                // Add each selected item as a new relation
+                selectedCheckboxes.forEach(checkbox => {
+                    const relatedItemId = checkbox.dataset.itemId;
+                    const relatedItemName = checkbox.dataset.itemName;
+                    
+                    // Check if this relation already exists (in existing or new)
+                    const existingRelation = document.querySelector(
+                        `input[name$=".RelatedItemId"][value="${relatedItemId}"]`
+                    );
+                    
+                    if (existingRelation) {
+                        alert(`${relatedItemName} is already related to this item`);
+                        checkbox.checked = false;
+                        return;
+                    }
+                    // error
+                    
+                    // Create new relation element for the allRelationsContainer (hidden inputs)
+                    const hiddenRelation = document.createElement('div');
+                    console.log("creating new div tag!");
+                    hiddenRelation.className = 'selected-item new-relation';
+                    hiddenRelation.dataset.index = nextIndex;
+                    
+                    hiddenRelation.innerHTML = `
+                        <input type="hidden" name="ItemRelationDtoList[${nextIndex}].ItemId" value="${mainItemId}">
+                        <input type="hidden" name="ItemRelationDtoList[${nextIndex}].RelatedItemId" value="${relatedItemId}">
+                        <input type="hidden" name="ItemRelationDtoList[${nextIndex}].RelationTypeId" value="${relationTypeId}">
+                        
+                        <div class="relation-info">
+                            <span style="font-weight:bold;margin-right:10px">
+                                ${relatedItemName} (ID: ${relatedItemId})
+                            </span>
+                            <span style="color:#666;font-size:.9em">
+                                (${relationTypeName})
+                            </span>
+                        </div>
+                        
+                        <button type="button" class="btn btn-sm btn-outline-danger remove-new-btn" 
+                                data-item-id="${relatedItemId}" data-index="${nextIndex}">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    `;
+                    
+                    // Add to allRelationsContainer (for form submission)
+                    allRelationsContainer.appendChild(hiddenRelation);
+                    
+                    // Also add to newRelationsContainer (for display)
+                    const displayRelation = document.createElement('div');
+                    displayRelation.className = 'selected-item new-relation';
+                    displayRelation.innerHTML = `
+                        <div class="relation-info">
+                            <span style="font-weight:bold;margin-right:10px">
+                                ${relatedItemName} (ID: ${relatedItemId})
+                            </span>
+                            <span style="color:#666;font-size:.9em">
+                                (${relationTypeName})
+                            </span>
+                        </div>
+                        <span class="badge bg-info">New</span>
+                    `;
+                    
+                    newRelationsContainer.insertBefore(displayRelation, newRelationsEmpty);
+                    
+                    // Increment index and uncheck checkbox
+                    nextIndex++;
+                    checkbox.checked = false;
+                });
+                
+                updateNewRelationsCount();
+            });
+            
+            // Remove new relation
+            document.addEventListener('click', function(e) {
+                if (e.target.closest('.remove-new-btn')) {
+                    const removeBtn = e.target.closest('.remove-new-btn');
+                    const relatedItemId = removeBtn.dataset.itemId;
+                    const index = removeBtn.dataset.index;
+                    
+                    // Find and remove the hidden relation
+                    const hiddenRelation = document.querySelector(
+                        `[data-index="${index}"]`
+                    );
+                    if (hiddenRelation) {
+                        hiddenRelation.remove();
+                    }
+                    
+                    // Remove the display relation
+                    const displayRelations = newRelationsContainer.querySelectorAll('.new-relation');
+                    displayRelations.forEach(rel => {
+                        if (rel.textContent.includes(`ID: ${relatedItemId}`)) {
+                            rel.remove();
+                        }
+                    });
+                    
+                    // Uncheck the checkbox
+                    const checkbox = document.querySelector(
+                        `.related-item-checkbox[data-item-id="${relatedItemId}"]`
+                    );
+                    if (checkbox) {
+                        checkbox.checked = false;
+                    }
+                    
+                    // Re-index all new relations
+                    reindexNewRelations();
+                    updateNewRelationsCount();
+                }
+                
+                // Remove existing relation (from database)
+                if (e.target.closest('.remove-btn')) {
+                    const removeBtn = e.target.closest('.remove-btn');
+                    const index = removeBtn.dataset.relationIndex;
+                    
+                    // Mark for deletion (you might want to add a hidden input for deletions)
+                    const relationDiv = removeBtn.closest('.existing-relation');
+                    relationDiv.style.display = 'none';
+                    
+                    // Add a hidden input to mark for deletion
+                    const deleteInput = document.createElement('input');
+                    deleteInput.type = 'hidden';
+                    deleteInput.name = `RelationsToDelete[${index}]`;
+                    deleteInput.value = index;
+                    relationDiv.appendChild(deleteInput);
+                }
+            });
+            
+            // Function to re-index new relations after removal
+            function reindexNewRelations() {
+                const newRelations = allRelationsContainer.querySelectorAll('.new-relation');
+                let currentIndex = @Model.ItemRelations.Count;
+                
+                newRelations.forEach((relation, i) => {
+                    const actualIndex = currentIndex + i;
+                    relation.dataset.index = actualIndex;
+                    
+                    // Update all hidden inputs with new index
+                    relation.querySelectorAll('input[type="hidden"]').forEach(input => {
+                        const oldName = input.name;
+                        const newName = oldName.replace(/\[\d+\]/, `[${actualIndex}]`);
+                        input.name = newName;
+                    });
+                    
+                    // Update remove button data-index
+                    const removeBtn = relation.querySelector('.remove-new-btn');
+                    if (removeBtn) {
+                        removeBtn.dataset.index = actualIndex;
+                    }
+                });
+                
+                nextIndex = @Model.ItemRelations.Count + newRelations.length;
+            }
+            
+            // Initialize
+            updateNewRelationsCount();
+        });
+    </script>

@@ -1,0 +1,262 @@
+@page
+@model Web.Pages.Admin.Supplier.IndexModel
+
+@{
+
+}
+
+<style>
+    .status-badge {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.25rem 0.75rem;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 600;
+    }
+
+    .status-active {
+        background-color: #d1fae5;
+        color: #065f46;
+    }
+
+    .status-inactive {
+        background-color: #e5e7eb;
+        color: #4b5563;
+    }
+</style>
+
+<!-- Content Area -->
+<div class="content">
+    <div class="page-header">
+        <h1 class="page-title">Suppliers</h1>
+        <button class="btn btn-primary" id="addSupplierBtn"><i class="fas fa-plus"></i> Add New Supplier</button>
+    </div>
+
+    <div class="table-container">
+        <div class="table-header">
+            <h2 class="table-title">All Suppliers</h2>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Contact Person</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody style="font-size: 16px;">
+                @if (Model?.Suppliers != null && Model.Suppliers.Any())
+                {
+                    foreach (var supplier in Model?.Suppliers)
+                    {
+                <tr>
+                    <td>@supplier.Name</td>
+                    <td>@supplier.ContactPerson</td>
+                    <td>@supplier.Email</td>
+                    <td>@supplier.Phone</td>
+                    <td><span class="status-badge @supplier?.SupplierStatus?.CssClassName">@supplier?.SupplierStatus?.Name</span></td>
+                    <td>
+                        <div class="action-buttons">
+                            <button type="button"
+                                    class="action-btn edit"
+                                    data-id="@supplier.Id"
+                                    data-name="@supplier.Name"
+                                    data-contact="@supplier.ContactPerson"
+                                    data-email="@supplier.Email"
+                                    data-phone="@supplier.Phone"
+                                    data-address="@supplier.Address"
+                                    data-notes="@supplier.Notes">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Modals -->
+<!-- Add/Edit Supplier Modal -->
+<div class="modal" id="supplierModal">
+    <form method="post" class="modal-content">
+        <div class="modal-header">
+            <h2 class="modal-title" id="modalTitle">Add New Supplier</h2>
+            <button type="button" class="modal-close">&times;</button>
+        </div>
+        <div class="modal-body">
+            <input type="hidden" name="SupplierDto.Id" id="supplierId">
+
+            <div class="form-group">
+                <label asp-for="SupplierDto.Name" class="form-label"></label>
+                <input asp-for="SupplierDto.Name" type="text" class="form-control" id="supplierName" placeholder="Enter supplier name">
+                <span asp-validation-for="SupplierDto.Name"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SupplierDto.ContactPerson" class="form-label"></label>
+                <input asp-for="SupplierDto.ContactPerson" type="text" class="form-control" id="contactPerson" placeholder="Enter contact person name">
+                <span asp-validation-for="SupplierDto.ContactPerson"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SupplierDto.Email" class="form-label"></label>
+                <input asp-for="SupplierDto.Email" type="email" class="form-control" id="supplierEmail" placeholder="Enter email address">
+                <span asp-validation-for="SupplierDto.Email"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SupplierDto.Phone" class="form-label"></label>
+                <input asp-for="SupplierDto.Phone" type="tel" class="form-control" id="supplierPhone" placeholder="Enter phone number">
+                <span asp-validation-for="SupplierDto.Phone"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SupplierDto.Address" class="form-label"></label>
+                <textarea asp-for="SupplierDto.Address" class="form-control" id="supplierAddress" rows="3" placeholder="Enter supplier address"></textarea>
+                <span asp-validation-for="SupplierDto.Address"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SupplierDto.SupplierStatusId" class="form-label"></label>
+                <select asp-for="SupplierDto.SupplierStatusId" asp-items="@Model.SuppliersStatusDropList" class="form-control" id="supplierStatus">
+                    <option value="">Choose supplier status</option>
+                </select>
+                <span asp-validation-for="SupplierDto.SupplierStatusId"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SupplierDto.Notes" class="form-label"></label>
+                <textarea asp-for="SupplierDto.Notes" class="form-control" id="supplierNotes" rows="3" placeholder="Additional notes"></textarea>
+                <span asp-validation-for="SupplierDto.Notes"></span>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-outline close-modal">Cancel</button>
+            <button type="submit" class="btn btn-primary">Save Supplier</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    (function () {
+        // Elements (cached)
+        const supplierModal = document.getElementById('supplierModal');
+        const deleteSupplierModal = document.getElementById('deleteSupplierModal');
+        const modalTitle = document.getElementById('modalTitle');
+
+        // Supplier form inputs
+        const supplierIdInput = document.getElementById('supplierId'); // hidden input for edit
+        const supplierName = document.getElementById('supplierName');
+        const contactPerson = document.getElementById('contactPerson');
+        const supplierEmail = document.getElementById('supplierEmail');
+        const supplierPhone = document.getElementById('supplierPhone');
+        const supplierAddress = document.getElementById('supplierAddress');
+        const supplierNotes = document.getElementById('supplierNotes');
+        const supplierStatus = document.getElementById('supplierStatus');
+
+        // Delete modal hidden input
+        const deleteSupplierIdInput = document.getElementById('deleteSupplierId');
+        const deleteSupplierName = document.getElementById('deleteSupplierName');
+
+        const addSupplierBtn = document.getElementById('addSupplierBtn');
+
+        // Track current supplier id
+        let currentSupplierId = null;
+
+        // Utility: open / close modals
+        function openModal(modal) {
+            if (!modal) return;
+            modal.classList.add('active');
+        }
+        function closeModal(modal) {
+            if (!modal) return;
+            modal.classList.remove('active');
+        }
+
+        // Reset supplier form (edit/add modal)
+        function resetSupplierForm() {
+            if (supplierIdInput) supplierIdInput.value = '0';
+            if (supplierName) supplierName.value = '';
+            if (contactPerson) contactPerson.value = '';
+            if (supplierEmail) supplierEmail.value = '';
+            if (supplierPhone) supplierPhone.value = '';
+            if (supplierAddress) supplierAddress.value = '';
+            if (supplierNotes) supplierNotes.value = '';
+            if (supplierStatus) supplierStatus.selectedIndex = 0;
+            currentSupplierId = null;
+            if (modalTitle) modalTitle.textContent = 'Add New Supplier';
+        }
+
+        // Add button opens empty supplier modal
+        if (addSupplierBtn) {
+            addSupplierBtn.addEventListener('click', function () {
+                resetSupplierForm();
+                modalTitle.textContent = 'Add New Supplier';
+                openModal(supplierModal);
+            });
+        }
+
+        // Event delegation for edit, delete, close buttons
+        document.addEventListener('click', function (e) {
+            const btn = e.target.closest('button, a');
+            if (!btn) return;
+
+            // --- Edit button ---
+            if (btn.classList.contains('action-btn') && btn.classList.contains('edit')) {
+                currentSupplierId = btn.dataset.id || '0'
+                const name = btn.dataset.name ?? '';
+                const contact = btn.dataset.contact ?? '';
+                const email = btn.dataset.email ?? '';
+                const phone = btn.dataset.phone ?? '';
+                const address = btn.dataset.address ?? '';
+                const notes = btn.dataset.notes ?? '';
+
+                if (supplierIdInput) supplierIdInput.value = currentSupplierId;
+                if (supplierName) supplierName.value = name;
+                if (contactPerson) contactPerson.value = contact;
+                if (supplierEmail) supplierEmail.value = email;
+                if (supplierPhone) supplierPhone.value = phone;
+                if (supplierAddress) supplierAddress.value = address;
+                if (supplierNotes) supplierNotes.value = notes;
+
+                if (modalTitle) modalTitle.textContent = 'Edit Supplier';
+                openModal(supplierModal);
+                return;
+            }
+
+            // --- Delete button ---
+            if (btn.classList.contains('action-btn') && btn.classList.contains('delete')) {
+                currentSupplierId = btn.dataset.id || '0';
+                const name = btn.dataset.name ?? '';
+
+                if (deleteSupplierIdInput) deleteSupplierIdInput.value = currentSupplierId;
+                if (deleteSupplierName) deleteSupplierName.textContent = name;
+
+                openModal(deleteSupplierModal);
+                return;
+            }
+
+            // --- Close modal buttons (x or Cancel) ---
+            if (btn.classList.contains('modal-close') || btn.classList.contains('close-modal')) {
+                const modal = btn.closest('.modal');
+                if (modal) {
+                    closeModal(modal);
+                    if (modal.id === 'supplierModal') resetSupplierForm();
+                }
+                return;
+            }
+        }, false);
+
+        // Close modal when clicking overlay
+        document.querySelectorAll('.modal').forEach(modal => {
+            modal.addEventListener('click', function (ev) {
+                if (ev.target === this) {
+                    closeModal(this);
+                    if (this.id === 'supplierModal') resetSupplierForm();
+                }
+            });
+        });
+
+    })();
+</script>

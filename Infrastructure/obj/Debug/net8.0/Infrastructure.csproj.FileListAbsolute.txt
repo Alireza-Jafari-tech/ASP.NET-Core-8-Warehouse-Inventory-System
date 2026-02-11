@@ -1,0 +1,40 @@
+D:\web development\phaze 1\month 3\ASP.NET-Core-8-Warehouse-Inventory-System\Infrastructure\bin\Debug\net8.0\Infrastructure.deps.json
+D:\web development\phaze 1\month 3\ASP.NET-Core-8-Warehouse-Inventory-System\Infrastructure\bin\Debug\net8.0\Infrastructure.runtimeconfig.json
+D:\web development\phaze 1\month 3\ASP.NET-Core-8-Warehouse-Inventory-System\Infrastructure\bin\Debug\net8.0\Infrastructure.dll
+D:\web development\phaze 1\month 3\ASP.NET-Core-8-Warehouse-Inventory-System\Infrastructure\bin\Debug\net8.0\Infrastructure.pdb
+D:\web development\phaze 1\month 3\ASP.NET-Core-8-Warehouse-Inventory-System\Infrastructure\bin\Debug\net8.0\Application.dll
+D:\web development\phaze 1\month 3\ASP.NET-Core-8-Warehouse-Inventory-System\Infrastructure\bin\Debug\net8.0\Domain.dll
+D:\web development\phaze 1\month 3\ASP.NET-Core-8-Warehouse-Inventory-System\Infrastructure\bin\Debug\net8.0\Application.pdb
+D:\web development\phaze 1\month 3\ASP.NET-Core-8-Warehouse-Inventory-System\Infrastructure\bin\Debug\net8.0\Domain.pdb
+D:\web development\phaze 1\month 3\ASP.NET-Core-8-Warehouse-Inventory-System\Infrastructure\obj\Debug\net8.0\Infrastructure.csproj.AssemblyReference.cache
+D:\web development\phaze 1\month 3\ASP.NET-Core-8-Warehouse-Inventory-System\Infrastructure\obj\Debug\net8.0\Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+D:\web development\phaze 1\month 3\ASP.NET-Core-8-Warehouse-Inventory-System\Infrastructure\obj\Debug\net8.0\Infrastructure.AssemblyInfoInputs.cache
+D:\web development\phaze 1\month 3\ASP.NET-Core-8-Warehouse-Inventory-System\Infrastructure\obj\Debug\net8.0\Infrastructure.AssemblyInfo.cs
+D:\web development\phaze 1\month 3\ASP.NET-Core-8-Warehouse-Inventory-System\Infrastructure\obj\Debug\net8.0\Infrastructure.csproj.CoreCompileInputs.cache
+D:\web development\phaze 1\month 3\ASP.NET-Core-8-Warehouse-Inventory-System\Infrastructure\obj\Debug\net8.0\Infrastructure.sourcelink.json
+D:\web development\phaze 1\month 3\ASP.NET-Core-8-Warehouse-Inventory-System\Infrastructure\obj\Debug\net8.0\Infrastr.15EFFBFE.Up2Date
+D:\web development\phaze 1\month 3\ASP.NET-Core-8-Warehouse-Inventory-System\Infrastructure\obj\Debug\net8.0\Infrastructure.dll
+D:\web development\phaze 1\month 3\ASP.NET-Core-8-Warehouse-Inventory-System\Infrastructure\obj\Debug\net8.0\refint\Infrastructure.dll
+D:\web development\phaze 1\month 3\ASP.NET-Core-8-Warehouse-Inventory-System\Infrastructure\obj\Debug\net8.0\Infrastructure.pdb
+D:\web development\phaze 1\month 3\ASP.NET-Core-8-Warehouse-Inventory-System\Infrastructure\obj\Debug\net8.0\Infrastructure.genruntimeconfig.cache
+D:\web development\phaze 1\month 3\ASP.NET-Core-8-Warehouse-Inventory-System\Infrastructure\obj\Debug\net8.0\ref\Infrastructure.dll
+C:\Users\Win10x64\Desktop\ASP.NET-Core-8-Warehouse-Inventory-System\Infrastructure\bin\Debug\net8.0\Infrastructure.deps.json
+C:\Users\Win10x64\Desktop\ASP.NET-Core-8-Warehouse-Inventory-System\Infrastructure\bin\Debug\net8.0\Infrastructure.runtimeconfig.json
+C:\Users\Win10x64\Desktop\ASP.NET-Core-8-Warehouse-Inventory-System\Infrastructure\bin\Debug\net8.0\Infrastructure.dll
+C:\Users\Win10x64\Desktop\ASP.NET-Core-8-Warehouse-Inventory-System\Infrastructure\bin\Debug\net8.0\Infrastructure.pdb
+C:\Users\Win10x64\Desktop\ASP.NET-Core-8-Warehouse-Inventory-System\Infrastructure\bin\Debug\net8.0\Application.dll
+C:\Users\Win10x64\Desktop\ASP.NET-Core-8-Warehouse-Inventory-System\Infrastructure\bin\Debug\net8.0\Domain.dll
+C:\Users\Win10x64\Desktop\ASP.NET-Core-8-Warehouse-Inventory-System\Infrastructure\bin\Debug\net8.0\Application.pdb
+C:\Users\Win10x64\Desktop\ASP.NET-Core-8-Warehouse-Inventory-System\Infrastructure\bin\Debug\net8.0\Domain.pdb
+C:\Users\Win10x64\Desktop\ASP.NET-Core-8-Warehouse-Inventory-System\Infrastructure\obj\Debug\net8.0\Infrastructure.csproj.AssemblyReference.cache
+C:\Users\Win10x64\Desktop\ASP.NET-Core-8-Warehouse-Inventory-System\Infrastructure\obj\Debug\net8.0\Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Win10x64\Desktop\ASP.NET-Core-8-Warehouse-Inventory-System\Infrastructure\obj\Debug\net8.0\Infrastructure.AssemblyInfoInputs.cache
+C:\Users\Win10x64\Desktop\ASP.NET-Core-8-Warehouse-Inventory-System\Infrastructure\obj\Debug\net8.0\Infrastructure.AssemblyInfo.cs
+C:\Users\Win10x64\Desktop\ASP.NET-Core-8-Warehouse-Inventory-System\Infrastructure\obj\Debug\net8.0\Infrastructure.csproj.CoreCompileInputs.cache
+C:\Users\Win10x64\Desktop\ASP.NET-Core-8-Warehouse-Inventory-System\Infrastructure\obj\Debug\net8.0\Infrastructure.sourcelink.json
+C:\Users\Win10x64\Desktop\ASP.NET-Core-8-Warehouse-Inventory-System\Infrastructure\obj\Debug\net8.0\Infrastr.15EFFBFE.Up2Date
+C:\Users\Win10x64\Desktop\ASP.NET-Core-8-Warehouse-Inventory-System\Infrastructure\obj\Debug\net8.0\Infrastructure.dll
+C:\Users\Win10x64\Desktop\ASP.NET-Core-8-Warehouse-Inventory-System\Infrastructure\obj\Debug\net8.0\refint\Infrastructure.dll
+C:\Users\Win10x64\Desktop\ASP.NET-Core-8-Warehouse-Inventory-System\Infrastructure\obj\Debug\net8.0\Infrastructure.pdb
+C:\Users\Win10x64\Desktop\ASP.NET-Core-8-Warehouse-Inventory-System\Infrastructure\obj\Debug\net8.0\Infrastructure.genruntimeconfig.cache
+C:\Users\Win10x64\Desktop\ASP.NET-Core-8-Warehouse-Inventory-System\Infrastructure\obj\Debug\net8.0\ref\Infrastructure.dll

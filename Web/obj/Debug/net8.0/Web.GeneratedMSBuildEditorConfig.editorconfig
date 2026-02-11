@@ -1,0 +1,119 @@
+is_global = true
+build_property.TargetFramework = net8.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = Web
+build_property.RootNamespace = Web
+build_property.ProjectDir = C:\Users\Win10x64\Desktop\ASP.NET-Core-8-Warehouse-Inventory-System\Web\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.RazorLangVersion = 8.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = C:\Users\Win10x64\Desktop\ASP.NET-Core-8-Warehouse-Inventory-System\Web
+build_property._RazorSourceGeneratorDebug = 
+
+[C:/Users/Win10x64/Desktop/ASP.NET-Core-8-Warehouse-Inventory-System/Web/Areas/Identity/Pages/Account/Admin/SignOutAdmin.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxBZG1pblxTaWduT3V0QWRtaW4uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Win10x64/Desktop/ASP.NET-Core-8-Warehouse-Inventory-System/Web/Areas/Identity/Pages/Account/Customer/SignOutCustomer.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxDdXN0b21lclxTaWduT3V0Q3VzdG9tZXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Win10x64/Desktop/ASP.NET-Core-8-Warehouse-Inventory-System/Web/Pages/Admin/Auth/AdminLogin.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW5cQXV0aFxBZG1pbkxvZ2luLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Win10x64/Desktop/ASP.NET-Core-8-Warehouse-Inventory-System/Web/Pages/Admin/Auth/AdminRegister.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW5cQXV0aFxBZG1pblJlZ2lzdGVyLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Win10x64/Desktop/ASP.NET-Core-8-Warehouse-Inventory-System/Web/Pages/Admin/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW5cSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Win10x64/Desktop/ASP.NET-Core-8-Warehouse-Inventory-System/Web/Pages/Admin/Items/AddRelation.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW5cSXRlbXNcQWRkUmVsYXRpb24uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Win10x64/Desktop/ASP.NET-Core-8-Warehouse-Inventory-System/Web/Pages/Admin/Items/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW5cSXRlbXNcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Win10x64/Desktop/ASP.NET-Core-8-Warehouse-Inventory-System/Web/Pages/Admin/Orders/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW5cT3JkZXJzXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Win10x64/Desktop/ASP.NET-Core-8-Warehouse-Inventory-System/Web/Pages/Admin/Orders/ViewOrder.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW5cT3JkZXJzXFZpZXdPcmRlci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Win10x64/Desktop/ASP.NET-Core-8-Warehouse-Inventory-System/Web/Pages/Admin/Suppliers/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW5cU3VwcGxpZXJzXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Win10x64/Desktop/ASP.NET-Core-8-Warehouse-Inventory-System/Web/Pages/Customer/Auth/CustomerLogin.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3VzdG9tZXJcQXV0aFxDdXN0b21lckxvZ2luLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Win10x64/Desktop/ASP.NET-Core-8-Warehouse-Inventory-System/Web/Pages/Customer/Auth/CustomerRegister.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3VzdG9tZXJcQXV0aFxDdXN0b21lclJlZ2lzdGVyLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Win10x64/Desktop/ASP.NET-Core-8-Warehouse-Inventory-System/Web/Pages/Customer/Carts/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3VzdG9tZXJcQ2FydHNcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Win10x64/Desktop/ASP.NET-Core-8-Warehouse-Inventory-System/Web/Pages/Customer/Catalogs/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3VzdG9tZXJcQ2F0YWxvZ3NcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Win10x64/Desktop/ASP.NET-Core-8-Warehouse-Inventory-System/Web/Pages/Customer/Catalogs/ViewItem.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3VzdG9tZXJcQ2F0YWxvZ3NcVmlld0l0ZW0uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Win10x64/Desktop/ASP.NET-Core-8-Warehouse-Inventory-System/Web/Pages/Customer/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3VzdG9tZXJcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Win10x64/Desktop/ASP.NET-Core-8-Warehouse-Inventory-System/Web/Pages/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRXJyb3IuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Win10x64/Desktop/ASP.NET-Core-8-Warehouse-Inventory-System/Web/Pages/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Win10x64/Desktop/ASP.NET-Core-8-Warehouse-Inventory-System/Web/Pages/Privacy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHJpdmFjeS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Win10x64/Desktop/ASP.NET-Core-8-Warehouse-Inventory-System/Web/Pages/Shared/_AdminSidebar.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hhcmVkXF9BZG1pblNpZGViYXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Win10x64/Desktop/ASP.NET-Core-8-Warehouse-Inventory-System/Web/Pages/Shared/_CustomerSidebar.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hhcmVkXF9DdXN0b21lclNpZGViYXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Win10x64/Desktop/ASP.NET-Core-8-Warehouse-Inventory-System/Web/Pages/Shared/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Win10x64/Desktop/ASP.NET-Core-8-Warehouse-Inventory-System/Web/Pages/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Win10x64/Desktop/ASP.NET-Core-8-Warehouse-Inventory-System/Web/Pages/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Win10x64/Desktop/ASP.NET-Core-8-Warehouse-Inventory-System/Web/Pages/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hhcmVkXF9MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = b-esyc55q667

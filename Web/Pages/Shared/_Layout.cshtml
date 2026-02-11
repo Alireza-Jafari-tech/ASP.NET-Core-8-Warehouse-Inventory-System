@@ -1,0 +1,95 @@
+﻿@using Microsoft.AspNetCore.Identity;
+@using Infrastructure.Identity
+@using Application.Interfaces
+
+@inject UserManager<ApplicationUser> UserManager
+@{
+    bool isAuthenticated = User?.Identity?.IsAuthenticated ?? false;
+}
+
+@inject IOrderItemService orderItemService
+@{
+    var orderItemsCount = orderItemService.GetOrderItemsCount();
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WarehousePro | Dashboard</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Web.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+    @* SIDEBAR *@
+    @if (isAuthenticated && User.IsInRole("Admin"))
+    {
+        <partial name="_AdminSidebar" />
+    }
+    else if (isAuthenticated && User.IsInRole("Customer"))
+    {
+        <partial name="_CustomerSidebar" />
+    }
+
+    <main role="main" class="main-content">
+    @* ADMIN *@
+
+            @if (isAuthenticated && User.IsInRole("Admin"))
+            {
+                var user = await UserManager.GetUserAsync(User);
+                string name = user?.FullName ?? "user!";
+                
+                <div class="top-bar">
+                    <h5 class="welcome-message">hello @name, you are an admin!🤵</h5>
+                    <div class="user-info">
+                        <form method="post" asp-area="Identity" asp-page="/Account/Admin/SignOutAdmin" class="d-inline">
+                            <button type="submit" class="btn btn-outline ms-3">
+                                <i class="fas fa-sign-out-alt"></i> Logout
+                            </button>
+                        </form>
+                        <div class="user-avatar">JD</div>
+                    </div>
+                </div>
+            }
+
+            @* CUSTOMER *@
+            else if (isAuthenticated && User.IsInRole("Customer"))
+            {
+                <div class="top-bar">
+                    <div class="welcome-message">Welcome back! you are a customer!🛒</div>
+                    <div class="cart-indicator">
+                        <form method="post" asp-area="Identity" asp-page="/Account/Customer/SignOutCustomer" class="d-inline">
+                            <button type="submit" class="btn btn-outline ms-3">
+                                <i class="fas fa-sign-out-alt"></i> Logout
+                            </button>
+                        </form>
+                        <a asp-page="/Customer/Carts/Index">
+                            <div class="cart-icon">
+                            <i class="fas fa-shopping-cart fa-lg" style="color:#000;"></i>
+                            <span class="cart-count" id="cart-item-count">@orderItemsCount</span>
+                        </div>
+                        </a>
+                        <div class="user-avatar">JS</div>
+                    </div>
+                </div>
+            }
+            else
+            {
+            }
+        @RenderBody()
+    </main>
+
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

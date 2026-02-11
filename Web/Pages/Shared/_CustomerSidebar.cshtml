@@ -1,0 +1,31 @@
+<div class="sidebar">
+    <div class="logo">
+        <div class="logo-icon">W</div>
+        <div class="logo-text">WarehousePro</div>
+    </div>
+    <ul class="nav-links">
+    <li>
+        <a asp-page="/Customer/Index"
+           class="nav-link @(Context.Request.Path.Value == "/Customer" || Context.Request.Path.Value == "/Customer" ? "active" : "")"
+           data-page="dashboard">
+            <i class="fas fa-user-circle"></i> <span>My Dashboard</span>
+        </a>
+    </li>
+
+    <li>
+        <a asp-page="/Customer/Catalogs/Index"
+           class="nav-link @(Context.Request.Path.Value.StartsWith("/Customer/Catalogs") ? "active" : "")"
+           data-page="catalog">
+            <i class="fas fa-boxes"></i> <span>Browse Catalog</span>
+        </a>
+    </li>
+
+    <li>
+        <a asp-page="/Customer/Carts/Index"
+           class="nav-link @(Context.Request.Path.Value.StartsWith("/Customer/Carts") ? "active" : "")"
+           data-page="cart">
+            <i class="fas fa-shopping-cart"></i> <span>My Cart</span>
+        </a>
+    </li>
+</ul>
+</div>

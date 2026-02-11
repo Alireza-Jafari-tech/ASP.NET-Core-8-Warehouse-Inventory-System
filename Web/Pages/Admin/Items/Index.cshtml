@@ -1,0 +1,320 @@
+@page
+@model Web.Pages.Admin.Items.IndexModel
+
+@{
+
+}
+
+<div class="content">
+    <div class="page-header">
+        <h1 class="page-title">Inventory Items</h1>
+        <button class="btn btn-primary" id="addItemBtn"><i class="fas fa-plus"></i> Add New Item</button>
+    </div>
+
+    <div class="table-container">
+        <div class="table-header">
+            <h2 class="table-title">All Items</h2>
+            <div class="table-actions">
+                <form method="post" id="search-bar" class="search-bar">
+                    <button type="submit" style="border: none;background-color: transparent;">
+                        <i class="fas fa-search"></i>
+                    </button>
+                    <input type="text" placeholder="Search items..." id="item-search" required>
+                </form>
+                <button class="btn btn-outline" id="filterBtn"><i class="fas fa-filter"></i> Filter</button>
+            </div>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Category</th>
+                    <th>Cost</th>
+                    <th>Quantity</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model?.Items != null && Model.Items.Any())
+                {
+                    foreach (var item in Model?.Items)
+                    {
+                <tr>
+                    <td>@item.Name</td>
+                    <td data-category-id="@item.CategoryId">@item.Category.Name</td>
+                    <td>$@item.Cost</td>
+                    <td>@item.QuantityAvailabe</td>
+                    <td><span class="status-badge @item.Status.CssClassName">@item.Status.Name</span></td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="action-btn edit"
+                                    data-id="@item.Id"
+                                    data-name="@item.Name"
+                                    data-category-id="@item.CategoryId"
+                                    data-cost="@item.Cost"
+                                    data-quantity-available="@item.QuantityAvailabe"
+                                    data-supplier-id="@item.SupplierId"
+                                    data-status-id="@item.StatusId"
+                                    data-picture-url="@item.PictureUrl"
+                                    data-reorder-level="@item.ReorderLevel"
+                                    data-description="@item.Description">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <a class="action-btn" asp-page="/Admin/Items/AddRelation" asp-route-id="@item.Id">
+                              <i class="fas fa-link"></i>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Modals -->
+<!-- Filter Modal -->
+<div class="modal" id="filterModal">
+    <form method="post" asp-page-handler="FilterItems" id="filter-modal-form" class="modal-content">
+        <div class="modal-header">
+            <h2 class="modal-title">Filter Items</h2>
+            <button type="button" class="modal-close">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+                <label asp-for="ItemFilterDto.SearchItemString" class="form-label"></label>
+                <input asp-for="ItemFilterDto.SearchItemString" type="text" class="form-control" id="item-filter-search" placeholder="Enter item name">
+                <span asp-validation-for="ItemFilterDto.SearchItemString"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ItemFilterDto.CategoryId" class="form-label"></label>
+                <select asp-for="ItemFilterDto.CategoryId" asp-items="@Model.CatergoriesDropdown" class="form-control">
+                    <option value="0">All Categories</option>
+                </select>
+                <span asp-validation-for="ItemFilterDto.CategoryId"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ItemFilterDto.StatusId" class="form-label">Status</label>
+                <select asp-for="ItemFilterDto.StatusId" asp-items="@Model.ItemsStatusDropdown" class="form-control">
+                    <option value="0">All Status</option>
+                </select>
+                <span asp-validation-for="ItemFilterDto.StatusId"></span>
+            </div>
+            <div class="form-group">
+                <div class="form-check">
+                    <input asp-for="ItemFilterDto.IsAvailable" class="form-check-input" type="checkbox" id="IsAvailable">
+                    <label asp-for="ItemFilterDto.IsAvailable" class="form-check-label" checked>Availability</label>
+                    <span asp-validation-for="ItemFilterDto.IsAvailable" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Cost Range</label>
+                <div style="display: flex; gap: 1rem;">
+                    <input asp-for="ItemFilterDto.MinCost" type="number" class="form-control" placeholder="Min" value="0" min="0" step="0.01">
+                    <span asp-validation-for="ItemFilterDto.MinCost"></span>
+                    <input asp-for="ItemFilterDto.MaxCost" value="@Model.MaxPrice" type="number" class="form-control" placeholder="Max" min="0" step="0.01">
+                    <span asp-validation-for="ItemFilterDto.MaxCost"></span>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-outline close-modal">Clear Filters</button>
+            <button class="btn btn-primary">Apply Filters</button>
+        </div>
+    </form>
+</div>
+
+<!-- Add/Edit Item Modal -->
+<div class="modal" id="itemModal">
+  <div class="modal-content">
+    <form method="post" asp-page-handler="AddOrUpdateItem">
+        <div class="modal-header">
+            <h2 class="modal-title" id="modalTitle">Add New Item</h2>
+            <button type="button" class="modal-close">&times;</button>
+        </div>
+        <div class="modal-body">
+            <input type="hidden" name="ItemDto.Id" id="hiddenItemId">
+            <div class="form-group">
+                <label asp-for="ItemDto.Name" class="form-label"></label>
+                <input asp-for="ItemDto.Name" type="text" class="form-control" id="itemName" placeholder="Enter item name">
+                <span asp-validation-for="ItemDto.Name"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ItemDto.CategoryId" class="form-label"></label>
+                <select asp-for="ItemDto.CategoryId" asp-items="@Model.CatergoriesDropdown" class="form-control" id="itemCategory">
+                    <option value="">Choose item category</option>
+                </select>
+                <span asp-validation-for="ItemDto.CategoryId"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ItemDto.Cost" class="form-label"></label>
+                <input asp-for="ItemDto.Cost" type="number" class="form-control" id="itemCost" min="0" step="0.01" placeholder="0.00">
+                <span asp-validation-for="ItemDto.Cost"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ItemDto.QuantityAvailabe" class="form-label"></label>
+                <input asp-for="ItemDto.QuantityAvailabe" type="number" class="form-control" id="itemQuantity" min="0" value="0">
+                <span asp-validation-for="ItemDto.QuantityAvailabe"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ItemDto.SupplierId" class="form-label"></label>
+                <select asp-for="ItemDto.SupplierId" asp-items="@Model.SuppliersDropdown" class="form-control" id="item-supplier">
+                    <option value="">Choose item supplier</option>
+                </select>
+                <span asp-validation-for="ItemDto.SupplierId"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ItemDto.StatusId" class="form-label"></label>
+                <select asp-for="ItemDto.StatusId" asp-items="@Model.ItemsStatusDropdown" class="form-control" id="item-status">
+                    <option value="">Choose item status</option>
+                </select>
+                <span asp-validation-for="ItemDto.StatusId"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ItemDto.PictureUrl" class="form-label"></label>
+                <input asp-for="ItemDto.PictureUrl" class="form-control" id="item-picture" rows="3" placeholder="Item picture" />
+                <span asp-validation-for="ItemDto.PictureUrl"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ItemDto.ReorderLevel" class="form-label"></label>
+                <input asp-for="ItemDto.ReorderLevel" type="number" class="form-control" id="item-reorderLevel" min="0" value="10" placeholder="Alert when stock goes below this number">
+                <span asp-validation-for="ItemDto.ReorderLevel"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ItemDto.Description" class="form-label"></label>
+                <textarea asp-for="ItemDto.Description" class="form-control" id="itemDescription" rows="3" placeholder="Item description"></textarea>
+                <span asp-validation-for="ItemDto.Description"></span>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-outline close-modal">Cancel</button>
+            <button button="submit" class="btn btn-primary">Save Item</button>
+        </div>
+    </form>
+  </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+  /* ============================
+       Modal elements
+    ============================ */
+  const filterModal = document.getElementById("filterModal");
+  const itemModal = document.getElementById("itemModal");
+  const modalTitle = document.getElementById("modalTitle");
+
+  /* ============================
+       Buttons
+    ============================ */
+  const filterBtn = document.getElementById("filterBtn");
+  const addItemBtn = document.getElementById("addItemBtn");
+
+  /* ============================
+       Item form fields
+    ============================ */
+  const hiddenItemId = document.getElementById("hiddenItemId");
+  const editingItem = document.getElementById("hiddenItemId");
+  const itemName = document.getElementById("itemName");
+  const itemCategory = document.getElementById("itemCategory");
+  const itemSupplier = document.getElementById("item-supplier");
+  const itemStatus = document.getElementById("item-status");
+  const itemCost = document.getElementById("itemCost");
+  const itemQuantity = document.getElementById("itemQuantity");
+  const itemPicture = document.getElementById("item-picture");
+  const itemReorderLevel = document.getElementById("item-reorderLevel");
+  const itemDescription = document.getElementById("itemDescription");
+
+  /* ============================
+       Variables
+    ============================ */
+  let currentItemId = null;
+
+  /* ============================
+       Helper functions
+    ============================ */
+  function resetItemForm() {
+    hiddenItemId.value = "0";
+    itemName.value = "";
+    itemCategory.selectedIndex = 0;
+    itemCost.value = "";
+    itemQuantity.value = "0";
+    currentItemId = null;
+  }
+
+  /* ============================
+       Open modals
+    ============================ */
+  filterBtn.addEventListener("click", function () {
+    filterModal.classList.add("active");
+  });
+
+  addItemBtn.addEventListener("click", function () {
+    modalTitle.textContent = "Add New Item";
+    resetItemForm();
+    itemModal.classList.add("active");
+  });
+
+  /* ============================
+       Edit buttons
+    ============================ */
+  document.querySelectorAll(".action-btn.edit").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      currentItemId = btn.dataset.id;
+
+      hiddenItemId.value = btn.dataset.id ?? "0";
+      editingItem.value = hiddenItemId.value;
+      itemName.value = btn.dataset.name ?? "";
+      itemCategory.value = btn.dataset.categoryId ?? "";
+      itemSupplier.value = btn.dataset.supplierId ?? "";
+      itemStatus.value = btn.dataset.statusId ?? "";
+      itemCost.value = btn.dataset.cost ?? "";
+      itemQuantity.value = btn.dataset.quantityAvailable ?? "";
+      itemPicture.value = btn.dataset.pictureUrl ?? "";
+      itemReorderLevel.value = btn.dataset.reorderLevel ?? "";
+      itemDescription.value = btn.dataset.description ?? "";
+
+      modalTitle.textContent = "Edit Item";
+      itemModal.classList.add("active");
+    });
+  });
+
+  /* ============================
+       Close modals
+    ============================ */
+  document
+    .querySelectorAll(".modal-close, .close-modal")
+    .forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        filterModal.classList.remove("active");
+        itemModal.classList.remove("active");
+      });
+    });
+
+  document.querySelectorAll(".modal").forEach(function (modal) {
+    modal.addEventListener("click", function (e) {
+      if (e.target === modal) {
+        modal.classList.remove("active");
+      }
+    });
+  });
+
+  /* ============================
+       Search submit sync
+    ============================ */
+  const searchBarForm = document.getElementById("search-bar");
+  if (searchBarForm) {
+    searchBarForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+      const itemSearchInput = document.getElementById("item-search");
+      const itemFilterSearch = document.getElementById("item-filter-search");
+      
+      if (itemSearchInput && itemFilterSearch) {
+        itemFilterSearch.value = itemSearchInput.value;
+        document.getElementById("filter-modal-form").submit();
+      }
+    });
+  }
+});
+</script>
